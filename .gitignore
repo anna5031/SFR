@@ -1,0 +1,9 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# Local gateway binary and runtime files
+gateway/mediamtx.exe
+gateway/mediamtx
+gateway/*.log
+

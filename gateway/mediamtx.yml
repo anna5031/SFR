@@ -1,0 +1,11 @@
+logLevel: info
+udpReadBufferSize: 1000000
+
+webrtc: true
+webrtcAddress: :8889
+webrtcAllowOrigins: ["*"]
+webrtcLocalUDPAddress: :8189
+
+paths:
+  camera:
+    source: udp+mpegts://0.0.0.0:15000

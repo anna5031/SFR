@@ -1,16 +1,13 @@
 # Pi camera publisher
 
-This directory is the only part required on the Raspberry Pi for the first
-streaming milestone.
+The script uses `rpicam-vid` to encode H.264, wrap it in MPEG-TS, and publish
+it over UDP without rotating or mirroring the source image.
 
-## Run
-
-Replace the address with the LAN IPv4 address of the Windows PC that runs
-MediaMTX.
+## Run with MediaMTX on the same Pi
 
 ```bash
 chmod +x stream-camera.sh
-GATEWAY_HOST=192.168.0.10 ./stream-camera.sh
+GATEWAY_HOST=127.0.0.1 ./stream-camera.sh
 ```
 
 Optional environment variables:
@@ -22,8 +19,9 @@ CAMERA_HEIGHT=480
 CAMERA_FPS=15
 CAMERA_BITRATE=1000000
 CAMERA_INTRA=15
+CAMERA_ROTATION=0
 ```
 
-The script asks `rpicam-vid` to encode H.264 and wrap it in MPEG-TS. It sends
-the resulting stream over UDP; it does not decode or re-encode frames in
-Python.
+The default `640x480`, 15 fps, 1 Mbps settings are intentionally conservative
+for a Raspberry Pi Zero 1. The systemd configuration in `../systemd` starts
+both MediaMTX and this publisher automatically at boot.

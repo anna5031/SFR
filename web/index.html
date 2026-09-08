@@ -2,55 +2,74 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SFR Camera</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>SFR Control Board</title>
     <link rel="stylesheet" href="./styles.css" />
     <script src="./app.js" defer></script>
   </head>
   <body>
     <main class="app-shell">
       <header class="toolbar">
-        <div>
-          <p class="eyebrow">SFR</p>
-          <h1>Camera stream</h1>
-        </div>
-        <span id="status" class="status" data-state="idle">연결 대기</span>
+        <div><p class="eyebrow">SFR</p><h1>Control board</h1></div>
+        <span id="status" class="status" data-state="idle">영상 연결 대기</span>
       </header>
 
       <section class="viewer" aria-label="카메라 영상">
-        <iframe
-          id="stream-frame"
-          title="Raspberry Pi camera stream"
-          allow="autoplay; fullscreen; picture-in-picture"
-          allowfullscreen
-        ></iframe>
+        <iframe id="stream-frame" title="Raspberry Pi camera stream" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
         <div id="placeholder" class="placeholder">
-          <strong>WebRTC gateway에 연결하세요.</strong>
+          <strong>WebRTC 게이트웨이에 연결하세요</strong>
           <span>Windows PC에서 MediaMTX와 Pi 송출을 먼저 실행합니다.</span>
         </div>
       </section>
 
       <form id="connection-form" class="connection-form">
-        <label>
-          Gateway host
-          <input id="gateway-host" name="gatewayHost" autocomplete="off" required />
-        </label>
-        <label>
-          WebRTC port
-          <input id="gateway-port" name="gatewayPort" type="number" min="1" max="65535" value="8889" required />
-        </label>
-        <label>
-          Stream path
-          <input id="stream-path" name="streamPath" value="camera" pattern="[A-Za-z0-9_/-]+" required />
-        </label>
+        <label>Gateway host<input id="gateway-host" autocomplete="off" required /></label>
+        <label>WebRTC port<input id="gateway-port" type="number" min="1" max="65535" value="8889" required /></label>
+        <label>Stream path<input id="stream-path" value="camera" pattern="[A-Za-z0-9_/-]+" required /></label>
         <div class="actions">
-          <button type="submit">연결</button>
+          <button type="submit">영상 연결</button>
           <button id="disconnect-button" type="button" class="secondary">연결 해제</button>
         </div>
       </form>
+
+      <section class="motor-panel" aria-labelledby="motor-heading">
+        <div class="panel-heading">
+          <div><p class="eyebrow">MOTOR</p><h2 id="motor-heading">Motor control</h2></div>
+          <span id="motor-status" class="status" data-state="idle">연결 안 됨</span>
+        </div>
+
+        <form id="motor-connection-form" class="motor-connection">
+          <label>Pi host<input id="motor-host" value="makelab.local" autocomplete="off" required /></label>
+          <label>Port<input id="motor-port" type="number" min="1" max="65535" value="8765" required /></label>
+          <button type="submit">모터 연결</button>
+        </form>
+
+        <label class="delay-control" for="auto-delay">
+          <span>Motor A auto direction delay <output id="delay-output">0.50초</output></span>
+          <input id="auto-delay" type="range" min="0.25" max="5" step="0.25" value="0.5" />
+        </label>
+
+        <div class="motor-grid">
+          <article class="motor-card">
+            <h3>Motor A - Left/Right</h3>
+            <button class="hold-button" data-motor="a" data-direction="forward" type="button">← Left</button>
+            <button class="hold-button" data-motor="a" data-direction="backward" type="button">→ Right</button>
+          </article>
+          <article class="motor-card">
+            <h3>Motor B - Up/Down</h3>
+            <button class="hold-button" data-motor="b" data-direction="forward" type="button">▲ Up</button>
+            <button class="hold-button" data-motor="b" data-direction="backward" type="button">▼ Down</button>
+          </article>
+        </div>
+
+        <div class="auto-control">
+          <div><strong>Motor A auto</strong><span id="auto-description">0.50초마다 Left ↔ Right</span></div>
+          <button id="auto-button" type="button" class="secondary" aria-pressed="false">자동 왕복 시작</button>
+        </div>
+        <button id="emergency-stop" type="button" class="danger">EMERGENCY STOP</button>
+      </section>
 
       <p id="stream-url" class="stream-url"></p>
     </main>
   </body>
 </html>
-

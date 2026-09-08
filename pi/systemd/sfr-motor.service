@@ -1,0 +1,17 @@
+[Unit]
+Description=SFR Raspberry Pi motor control server
+After=network.target
+
+[Service]
+Type=simple
+User=makelab
+Group=makelab
+SupplementaryGroups=gpio
+WorkingDirectory=/home/makelab/dev/SFR/motor
+ExecStart=/usr/bin/python3 /home/makelab/dev/SFR/motor/motor_server.py
+Restart=on-failure
+RestartSec=2
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

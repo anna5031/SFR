@@ -1,0 +1,19 @@
+[Unit]
+Description=SFR Raspberry Pi camera publisher
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=makelab
+Group=makelab
+SupplementaryGroups=video
+WorkingDirectory=/home/makelab/dev/SFR/camera
+EnvironmentFile=/etc/default/sfr-camera
+ExecStart=/usr/bin/bash /home/makelab/dev/SFR/camera/stream-camera.sh
+Restart=on-failure
+RestartSec=2
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

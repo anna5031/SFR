@@ -161,7 +161,7 @@ Python 애플리케이션에서 프레임을 읽거나 JPEG/H.264로 재인코�
 camera:
   sensor: imx219
   width: 640
-  height: 480
+  height: 360
   fps: 15
   bitrate: 1000000
   codec: h264
@@ -482,7 +482,7 @@ GATEWAY_HOST=<WINDOWS_LAN_IP> ./stream-camera.sh
 스크립트의 첫 출력이 아래 형식인지 확인한다.
 
 ```text
-Streaming 640x480@15 to <WINDOWS_LAN_IP>:15000
+Streaming 640x360@15 using sensor mode 1640:1232:10:P to <WINDOWS_LAN_IP>:15000
 ```
 
 MediaMTX가 stream을 인식한 후 Windows 브라우저에서 기본 player를 연다.

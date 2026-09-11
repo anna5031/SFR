@@ -5,7 +5,8 @@ set -euo pipefail
 
 GATEWAY_PORT="${GATEWAY_PORT:-15000}"
 CAMERA_WIDTH="${CAMERA_WIDTH:-640}"
-CAMERA_HEIGHT="${CAMERA_HEIGHT:-480}"
+CAMERA_HEIGHT="${CAMERA_HEIGHT:-360}"
+CAMERA_MODE="${CAMERA_MODE:-1640:1232:10:P}"
 CAMERA_FPS="${CAMERA_FPS:-15}"
 CAMERA_BITRATE="${CAMERA_BITRATE:-1000000}"
 CAMERA_INTRA="${CAMERA_INTRA:-15}"
@@ -16,13 +17,14 @@ if ! command -v rpicam-vid >/dev/null 2>&1; then
   exit 1
 fi
 
-echo "Streaming ${CAMERA_WIDTH}x${CAMERA_HEIGHT}@${CAMERA_FPS} to ${GATEWAY_HOST}:${GATEWAY_PORT}"
+echo "Streaming ${CAMERA_WIDTH}x${CAMERA_HEIGHT}@${CAMERA_FPS} using sensor mode ${CAMERA_MODE} to ${GATEWAY_HOST}:${GATEWAY_PORT}"
 
 exec rpicam-vid \
   --timeout 0 \
   --nopreview \
   --width "${CAMERA_WIDTH}" \
   --height "${CAMERA_HEIGHT}" \
+  --mode "${CAMERA_MODE}" \
   --framerate "${CAMERA_FPS}" \
   --rotation "${CAMERA_ROTATION}" \
   --bitrate "${CAMERA_BITRATE}" \
